@@ -1,185 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chemistry Quiz</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-  <style>
-    /* Add your custom styles here */
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      margin: 0;
-    }
-
-    .main-content {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .options {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      padding: 20px;
-    }
-
-    .option {
-      width: 100px;
-      height: 100px;
-      font-size: 24px;
-      padding: 10px;
-      margin: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-    }
-
-    .video-container {
-      margin-top: 20px;
-      background-color: #f0f0f0;
-      padding: 20px;
-      display: none;
-      text-align: center;
-    }
-
-    .video-container img {
-      max-height: 400px;
-      width: auto;
-      cursor: pointer;
-    }
-
-    .video-container video {
-      max-height: 400px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .centered {
-      background-color: #4caf50;
-      color: #fff;
-    }
-  </style>
+    <title>Chemical Mixing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #game-container {
+            width: 800px;
+            height: 600px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+        
+        .element {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            cursor: pointer;
+        }
+        
+        .solution {
+            width: 200px;
+            height: 300px;
+            position: absolute;
+            top: 50px;
+            left: 300px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+        }
+        
+        .product {
+            width: 200px;
+            height: 50px;
+            position: absolute;
+            top: 400px;
+            left: 300px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            text-align: center;
+            line-height: 50px;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Chemistry Quiz</h1>
-    <div class="main-content">
-      <div class="options">
-        <button class="option" draggable="true" ondragstart="dragStart(event)">Option 1</button>
-        <button class="option" draggable="true" ondragstart="dragStart(event)">Option 2</button>
-        <button class="option" draggable="true" ondragstart="dragStart(event)">Option 3</button>
-        <button class="option" draggable="true" ondragstart="dragStart(event)">Option 4</button>
-      </div>
+    <div id="game-container">
+        <div class="solution" id="solution"></div>
+        <div class="product" id="product"></div>
     </div>
-    <div class="video-container" ondrop="drop(event)" ondragover="allowDrop(event)">
-      <img src="Image.jpg" draggable="false" onclick="showVideo('movie.mp4')" />
-      <video src="" controls></video>
-    </div>
-    <button class="next-button hidden" onclick="loadNextLevel()">Next Level</button>
-  </div>
 
-  <script src="script.js"></script>
-  <script>
-    var levels = [
-      // Level details
-    ];
+    <script>
+        // Define the elements
+        var elements = [
+            {
+                name: "Element 1",
+                color: "red",
+                solution: "Solution 1"
+            },
+            {
+                name: "Element 2",
+                color: "blue",
+                solution: "Solution 2"
+            },
+            {
+                name: "Element 3",
+                color: "green",
+                solution: "Solution 3"
+            },
+            {
+                name: "Element 4",
+                color: "yellow",
+                solution: "Solution 4"
+            },
+            {
+                name: "Element 5",
+                color: "purple",
+                solution: "Solution 5"
+            }
+        ];
 
-    var currentLevelIndex = 0;
+        // Get the solution and product elements
+        var solutionElement = document.getElementById("solution");
+        var productElement = document.getElementById("product");
 
-    function loadLevel(levelIndex) {
-      var level = levels[levelIndex];
+        // Create the element buttons
+        elements.forEach(function (element, index) {
+            var elementButton = document.createElement("div");
+            elementButton.className = "element";
+            elementButton.style.backgroundColor = element.color;
+            elementButton.style.top = "50px";
+            elementButton.style.left = (50 + index * 70) + "px";
+            elementButton.addEventListener("click", function () {
+                addElementToSolution(element);
+            });
+            document.getElementById("game-container").appendChild(elementButton);
+        });
 
-      var questionElement = document.querySelector(".question");
-      questionElement.textContent = level.question;
-
-      var optionsContainer = document.querySelector(".options");
-      optionsContainer.innerHTML = "";
-
-      level.options.forEach(function (option) {
-        var optionButton = document.createElement("button");
-        optionButton.classList.add("option");
-        optionButton.textContent = option;
-        optionButton.draggable = true;
-        optionButton.ondragstart = function (event) {
-          dragStart(event, option);
-        };
-
-        optionsContainer.appendChild(optionButton);
-      });
-
-      var videoContainer = document.querySelector(".video-container");
-      videoContainer.style.display = "none";
-      videoContainer.querySelector("video").src = "";
-
-      var nextButton = document.querySelector(".next-button");
-      nextButton.style.display = "none";
-      nextButton.onclick = null;
-    }
-
-    function dragStart(event, option) {
-      event.dataTransfer.setData("text/plain", option);
-    }
-
-    function allowDrop(event) {
-      event.preventDefault();
-    }
-
-    function drop(event) {
-      event.preventDefault();
-      var data = event.dataTransfer.getData("text/plain");
-      var draggedOption = data.toLowerCase();
-      var level = levels[currentLevelIndex];
-
-      if (level.options.includes(draggedOption)) {
-        showVideo(level.videoSrc);
-        document.getElementById("demo").innerHTML = "Correct!";
-        event.target.classList.add("centered");
-      } else {
-        document.getElementById("demo").innerHTML = "Wrong....";
-      }
-    }
-
-    function showVideo(videoSrc) {
-      var videoContainer = document.querySelector(".video-container");
-      var videoElement = videoContainer.querySelector("video");
-
-      videoElement.src = videoSrc;
-      videoContainer.style.display = "block";
-      videoElement.play();
-
-      videoElement.onended = function () {
-        moveToNextLevel();
-      };
-    }
-
-    function moveToNextLevel() {
-      currentLevelIndex++;
-
-      if (currentLevelIndex >= levels.length) {
-        // All levels completed
-        window.location.href = "gameover.html"; // Redirect to game over page
-      } else {
-        loadLevel(currentLevelIndex);
-      }
-    }
-
-    // Start the game
-    loadLevel(currentLevelIndex);
-  </script>
+        // Add an element to the solution
+        function addElementToSolution(element) {
+            var elementDiv = document.createElement("div");
+            elementDiv.className = "element";
+            elementDiv.style.backgroundColor = element.color;
+            solutionElement.appendChild(elementDiv);
+            productElement.textContent = element.solution;
+        }
+    </script>
 </body>
 </html>
+
