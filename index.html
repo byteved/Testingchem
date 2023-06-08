@@ -20,74 +20,66 @@
         }
 
         .element {
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
             position: absolute;
             cursor: pointer;
-        }
-
-        .solution {
-            width: 200px;
-            height: 300px;
-            position: absolute;
-            top: 50px;
-            left: 300px;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
+            text-align: center;
+            line-height: 100px;
+            font-size: 20px;
+            font-weight: bold;
         }
 
         .product {
             width: 200px;
             height: 50px;
             position: absolute;
-            top: 400px;
+            top: 500px;
             left: 300px;
             background-color: #ffffff;
             border: 1px solid #ccc;
             text-align: center;
             line-height: 50px;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <div class="solution" id="solution"></div>
-        <div class="product" id="product"></div>
     </div>
 
     <script>
         // Define the elements
         var elements = [
             {
-                name: "Element 1",
+                name: "H2O",
+                color: "blue",
+                tags: ["flammable"]
+            },
+            {
+                name: "Carbon",
+                color: "black",
+                tags: []
+            },
+            {
+                name: "Oxygen",
                 color: "red",
                 tags: ["flammable"]
             },
             {
-                name: "Element 2",
-                color: "blue",
-                tags: []
-            },
-            {
-                name: "Element 3",
-                color: "green",
-                tags: ["flammable"]
-            },
-            {
-                name: "Element 4",
+                name: "Nitrogen",
                 color: "yellow",
                 tags: ["explosive"]
             },
             {
-                name: "Element 5",
-                color: "purple",
+                name: "Sodium",
+                color: "silver",
                 tags: []
             }
         ];
 
-        // Get the solution and product elements
-        var solutionElement = document.getElementById("solution");
-        var productElement = document.getElementById("product");
+        // Get the game container element
+        var gameContainer = document.getElementById("game-container");
 
         // Create the element buttons
         elements.forEach(function (element, index) {
@@ -95,28 +87,33 @@
             elementButton.className = "element";
             elementButton.style.backgroundColor = element.color;
             elementButton.style.top = "50px";
-            elementButton.style.left = (50 + index * 70) + "px";
+            elementButton.style.left = (50 + index * 120) + "px";
+            elementButton.textContent = element.name;
             elementButton.addEventListener("click", function () {
                 addElementToSolution(element);
             });
-            document.getElementById("game-container").appendChild(elementButton);
+            gameContainer.appendChild(elementButton);
         });
 
         // Add an element to the solution
         function addElementToSolution(element) {
-            var elementDiv = document.createElement("div");
-            elementDiv.className = "element";
-            elementDiv.style.backgroundColor = element.color;
-            solutionElement.appendChild(elementDiv);
-            
             if (element.tags.includes("flammable")) {
-                productElement.textContent = "Flammable";
+                showProduct("Flammable");
             } else if (element.tags.includes("explosive")) {
-                productElement.textContent = "Explosive";
+                showProduct("Explosive");
             } else {
-                productElement.textContent = "No special property";
+                showProduct("No special property");
             }
+        }
+
+        // Show the product
+        function showProduct(product) {
+            var productElement = document.createElement("div");
+            productElement.className = "product";
+            productElement.textContent = product;
+            gameContainer.appendChild(productElement);
         }
     </script>
 </body>
 </html>
+
