@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,6 +32,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
         }
 
         .special {
@@ -70,6 +73,16 @@
             font-weight: bold;
             margin-top: 10px;
         }
+
+        #element-description {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     </style>
 </head>
 <body>
@@ -91,29 +104,24 @@
         <div id="quiz-result"></div>
     </div>
 
+    <div id="element-description"></div>
+
     <script>
         // Define the elements
         var elements = [
-            { symbol: "H", special: "Flammable" },
-            { symbol: "He", special: "" },
-            { symbol: "Li", special: "Flammable" },
-            { symbol: "Be", special: "" },
-            { symbol: "B", special: "" },
-            { symbol: "C", special: "" },
-            { symbol: "N", special: "" },
-            { symbol: "O", special: "" },
-            { symbol: "F", special: "" },
-            { symbol: "Ne", special: "" },
-            { symbol: "Na", special: "Flammable" },
-            { symbol: "Mg", special: "" },
-            { symbol: "Al", special: "" },
-            { symbol: "Si", special: "" },
-            { symbol: "P", special: "" },
-            { symbol: "S", special: "" },
-            { symbol: "Cl", special: "" },
-            { symbol: "K", special: "Flammable" },
-            { symbol: "Ar", special: "" },
-            { symbol: "Ca", special: "" },
+            { symbol: "H", special: "Flammable", description: "Hydrogen is a chemical element with the symbol H and atomic number 1. It is the lightest and most abundant element in the universe, making up about 75% of its elemental mass."},
+            { symbol: "He", special: "", description: "Helium is a chemical element with the symbol He and atomic number 2. It is a colorless, odorless, tasteless, non-toxic, inert, monatomic gas that heads the noble gas group in the periodic table."},
+            { symbol: "Li", special: "Flammable", description: "Lithium is a chemical element with the symbol Li and atomic number 3. It is a soft, silvery-white alkali metal. Under standard conditions, it is the lightest metal and the least dense solid element."},
+            { symbol: "Be", special: "", description: "Beryllium is a chemical element with the symbol Be and atomic number 4. It is a relatively rare element in the universe, usually occurring as a product of the spallation of larger atomic nuclei that have collided with cosmic rays."},
+            { symbol: "B", special: "", description: "Boron is a chemical element with the symbol B and atomic number 5. It is a low-abundance element in the Solar System and in the Earth's crust. Boron is concentrated on Earth by the water-solubility of its more common naturally occurring compounds, the borate minerals."},
+            { symbol: "C", special: "", description: "Carbon is a chemical element with the symbol C and atomic number 6. It is a nonmetallic element in the periodic table."},
+            { symbol: "N", special: "", description: "Nitrogen is a chemical element with the symbol N and atomic number 7. It was first discovered and isolated by Scottish physician Daniel Rutherford in 1772."},
+            { symbol: "O", special: "", description: "Oxygen is a chemical element with the symbol O and atomic number 8. It is a member of the chalcogen group on the periodic table, a highly reactive nonmetal, and an oxidizing agent that readily forms oxides with most elements as well as with other compounds."},
+            { symbol: "F", special: "", description: "Fluorine is a chemical element with the symbol F and atomic number 9. It is the lightest halogen and exists as a highly toxic pale yellow diatomic gas at standard conditions."},
+            { symbol: "Ne", special: "", description: "Neon is a chemical element with the symbol Ne and atomic number 10. It is a noble gas."},
+            { symbol: "Na", special: "Flammable", description: "Sodium is a chemical element with the symbol Na and atomic number 11. It is a soft, silvery-white, highly reactive metal."},
+            { symbol: "Mg", special: "", description: "Magnesium is a chemical element with the symbol Mg and atomic number 12. It is a shiny gray solid which bears a close physical resemblance to the other five elements in the second column of the periodic table: all group 2 elements have the same electron configuration in the outer electron shell and a similar crystal structure."},
+            { symbol: "Al", special: "", description: "Aluminium is a chemical element with the symbol Al and atomic number 13. It is a silvery-white, soft, nonmagnetic and ductile metal in the boron group."},
             // Add more elements here...
         ];
 
@@ -131,6 +139,10 @@
             } else if (element.special === "Explosive") {
                 elementDiv.classList.add("special", "explosive");
             }
+
+            elementDiv.addEventListener("click", function() {
+                showDescription(element.description);
+            });
 
             tableContainer.appendChild(elementDiv);
         });
@@ -157,7 +169,13 @@
             var quizResult = document.getElementById("quiz-result");
             quizResult.textContent = correct ? "Correct! You selected 5 flammable materials." : "Incorrect. Please select 5 flammable materials.";
         }
+
+        // Show element description
+        function showDescription(description) {
+            var elementDescription = document.getElementById("element-description");
+            elementDescription.textContent = description;
+            elementDescription.style.display = "block";
+        }
     </script>
 </body>
 </html>
-
