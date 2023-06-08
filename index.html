@@ -13,6 +13,9 @@
         #table-container {
             width: 1000px;
             margin: 50px auto;
+            display: grid;
+            grid-template-columns: repeat(18, 1fr);
+            gap: 4px;
         }
 
         .element {
@@ -24,7 +27,9 @@
             line-height: 50px;
             font-size: 12px;
             font-weight: bold;
-            float: left;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .special {
@@ -47,22 +52,10 @@
     <script>
         // Define the elements
         var elements = [
-            {
-                symbol: "H",
-                special: "Flammable"
-            },
-            {
-                symbol: "He",
-                special: ""
-            },
-            {
-                symbol: "Li",
-                special: "Explosive"
-            },
-            {
-                symbol: "Be",
-                special: ""
-            },
+            { symbol: "H", special: "Flammable" },
+            { symbol: "He", special: "" },
+            { symbol: "Li", special: "Explosive" },
+            { symbol: "Be", special: "" },
             // Add more elements here...
         ];
 
@@ -74,15 +67,16 @@
             var elementDiv = document.createElement("div");
             elementDiv.className = "element";
             elementDiv.textContent = element.symbol;
-            
+
             if (element.special === "Flammable") {
                 elementDiv.classList.add("special", "flammable");
             } else if (element.special === "Explosive") {
                 elementDiv.classList.add("special", "explosive");
             }
-            
+
             tableContainer.appendChild(elementDiv);
         });
     </script>
 </body>
 </html>
+
