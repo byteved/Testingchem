@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Periodic Table Game</title>
+    <title>Periodic Table Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,18 +44,76 @@
             background-color: red;
             color: white;
         }
+
+        #quiz-container {
+            width: 800px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .quiz-option {
+            margin-bottom: 10px;
+        }
+
+        .quiz-option label {
+            display: block;
+            font-weight: bold;
+        }
+
+        #quiz-result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="table-container"></div>
+
+    <div id="quiz-container">
+        <h2>Periodic Table Quiz</h2>
+        <div class="quiz-option">
+            <label>Select 5 flammable materials from the periodic table:</label>
+            <select id="quiz-select" multiple>
+                <option value="H">H</option>
+                <option value="Li">Li</option>
+                <option value="Na">Na</option>
+                <option value="K">K</option>
+                <option value="Rb">Rb</option>
+            </select>
+        </div>
+        <button onclick="checkQuiz()">Check Quiz</button>
+        <div id="quiz-result"></div>
+    </div>
 
     <script>
         // Define the elements
         var elements = [
             { symbol: "H", special: "Flammable" },
             { symbol: "He", special: "" },
-            { symbol: "Li", special: "Explosive" },
+            { symbol: "Li", special: "Flammable" },
             { symbol: "Be", special: "" },
+            { symbol: "B", special: "" },
+            { symbol: "C", special: "" },
+            { symbol: "N", special: "" },
+            { symbol: "O", special: "" },
+            { symbol: "F", special: "" },
+            { symbol: "Ne", special: "" },
+            { symbol: "Na", special: "Flammable" },
+            { symbol: "Mg", special: "" },
+            { symbol: "Al", special: "" },
+            { symbol: "Si", special: "" },
+            { symbol: "P", special: "" },
+            { symbol: "S", special: "" },
+            { symbol: "Cl", special: "" },
+            { symbol: "K", special: "Flammable" },
+            { symbol: "Ar", special: "" },
+            { symbol: "Ca", special: "" },
             // Add more elements here...
         ];
 
@@ -76,6 +134,29 @@
 
             tableContainer.appendChild(elementDiv);
         });
+
+        // Quiz function
+        function checkQuiz() {
+            var selectedOptions = Array.from(document.querySelectorAll("#quiz-select option:checked"));
+            var selectedSymbols = selectedOptions.map(function (option) {
+                return option.value;
+            });
+
+            var flammableElements = elements.filter(function (element) {
+                return element.special === "Flammable";
+            });
+
+            var flammableSymbols = flammableElements.map(function (element) {
+                return element.symbol;
+            });
+
+            var correct = selectedSymbols.length === 5 && selectedSymbols.every(function (symbol) {
+                return flammableSymbols.includes(symbol);
+            });
+
+            var quizResult = document.getElementById("quiz-result");
+            quizResult.textContent = correct ? "Correct! You selected 5 flammable materials." : "Incorrect. Please select 5 flammable materials.";
+        }
     </script>
 </body>
 </html>
