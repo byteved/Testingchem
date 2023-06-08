@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chemical Mixing Quiz</title>
+    <title>Periodic Table Game</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -10,110 +10,79 @@
             padding: 0;
         }
 
-        #game-container {
-            width: 800px;
-            height: 600px;
+        #table-container {
+            width: 1000px;
             margin: 50px auto;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            position: relative;
         }
 
         .element {
-            width: 100px;
-            height: 100px;
-            position: absolute;
-            cursor: pointer;
-            text-align: center;
-            line-height: 100px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .product {
-            width: 200px;
+            width: 50px;
             height: 50px;
-            position: absolute;
-            top: 500px;
-            left: 300px;
-            background-color: #ffffff;
             border: 1px solid #ccc;
+            box-sizing: border-box;
             text-align: center;
             line-height: 50px;
-            font-size: 18px;
+            font-size: 12px;
+            font-weight: bold;
+            float: left;
+        }
+
+        .special {
+            background-color: lightblue;
+        }
+
+        .flammable {
+            background-color: yellow;
+        }
+
+        .explosive {
+            background-color: red;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <div id="game-container">
-    </div>
+    <div id="table-container"></div>
 
     <script>
         // Define the elements
         var elements = [
             {
-                name: "H2O",
-                color: "blue",
-                tags: ["flammable"]
+                symbol: "H",
+                special: "Flammable"
             },
             {
-                name: "Carbon",
-                color: "black",
-                tags: []
+                symbol: "He",
+                special: ""
             },
             {
-                name: "Oxygen",
-                color: "red",
-                tags: ["flammable"]
+                symbol: "Li",
+                special: "Explosive"
             },
             {
-                name: "Nitrogen",
-                color: "yellow",
-                tags: ["explosive"]
+                symbol: "Be",
+                special: ""
             },
-            {
-                name: "Sodium",
-                color: "silver",
-                tags: []
-            }
+            // Add more elements here...
         ];
 
-        // Get the game container element
-        var gameContainer = document.getElementById("game-container");
+        // Get the table container element
+        var tableContainer = document.getElementById("table-container");
 
-        // Create the element buttons
-        elements.forEach(function (element, index) {
-            var elementButton = document.createElement("div");
-            elementButton.className = "element";
-            elementButton.style.backgroundColor = element.color;
-            elementButton.style.top = "50px";
-            elementButton.style.left = (50 + index * 120) + "px";
-            elementButton.textContent = element.name;
-            elementButton.addEventListener("click", function () {
-                addElementToSolution(element);
-            });
-            gameContainer.appendChild(elementButton);
-        });
-
-        // Add an element to the solution
-        function addElementToSolution(element) {
-            if (element.tags.includes("flammable")) {
-                showProduct("Flammable");
-            } else if (element.tags.includes("explosive")) {
-                showProduct("Explosive");
-            } else {
-                showProduct("No special property");
+        // Create the elements in the table
+        elements.forEach(function (element) {
+            var elementDiv = document.createElement("div");
+            elementDiv.className = "element";
+            elementDiv.textContent = element.symbol;
+            
+            if (element.special === "Flammable") {
+                elementDiv.classList.add("special", "flammable");
+            } else if (element.special === "Explosive") {
+                elementDiv.classList.add("special", "explosive");
             }
-        }
-
-        // Show the product
-        function showProduct(product) {
-            var productElement = document.createElement("div");
-            productElement.className = "product";
-            productElement.textContent = product;
-            gameContainer.appendChild(productElement);
-        }
+            
+            tableContainer.appendChild(elementDiv);
+        });
     </script>
 </body>
 </html>
-
